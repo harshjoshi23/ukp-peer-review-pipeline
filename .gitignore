@@ -1,0 +1,17 @@
+# Supplied assessment inputs stay local.
+/data/
+/references/
+
+# Local environments, caches, and editor state.
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.pytest_cache/
+.DS_Store
+.idea/
+.vscode/
+.env
+.env.*
+.results-*.tmp

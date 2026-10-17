@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "purpose": "Optional post hoc diagnostics of the frozen score-regression experiment",
+  "input_sha256": "aeede9ec6a5be75d1fb140423a0d75b3eec6a221f21bc4ae868b360a57c282bd",
+  "model_sha256": "15b7b79f46f95cc627e5d4ecd34101bc3fd8fd477216556af0372d5dc2c91668",
+  "metrics_sha256": "9a90f4f77105c06e1726c4d453ab6ceb319ffb56600f33da6eece39a1da0b9fc",
+  "numpy_version": "2.3.5",
+  "split_seed": "ukp-score-demo-v1",
+  "selected": {
+    "family": "linear",
+    "alpha": 100.0
+  },
+  "bootstrap": {
+    "method": "95% percentile paper-cluster bootstrap; row-weighted metrics",
+    "samples": 1000,
+    "seed": 20261017,
+    "papers": 525,
+    "rows": 1540,
+    "mae": {
+      "estimate": 0.5479072179175323,
+      "ci_95": [
+        0.5244816642667439,
+        0.5726066321890196
+      ]
+    },
+    "rmse": {
+      "estimate": 0.7188989216920944,
+      "ci_95": [
+        0.6769945981920786,
+        0.7659287338370677
+      ]
+    },
+    "baseline_rmse_minus_model_rmse": {
+      "estimate": 0.765391264865919,
+      "ci_95": [
+        0.7070181569946192,
+        0.8261519700263525
+      ]
+    },
+    "interpretation": "Positive paired RMSE improvement favors the saved model. Both models use the same resampled papers.",
+    "scope": "Conditional on the fixed fitted model and held-out split; no refitting or selection uncertainty, no external-validity claim. Paper clustering does not account for dependence between papers sharing reviewers."
+  },
+  "permutation_importance": {
+    "baseline_rmse": 0.7188989216920944,
+    "repeats": 20,
+    "seed": 20261018,
+    "method": "Row-wise marginal permutation of each raw held-out feature",
+    "features": [
+      {
+        "feature": "soundness",
+        "rmse_increase_mean": 0.6410067417390072,
+        "rmse_increase_std": 0.014519431431716044
+      },
+      {
+        "feature": "excitement",
+        "rmse_increase_mean": 0.41487354773606133,
+        "rmse_increase_std": 0.013608147734318303
+      },
+      {
+        "feature": "confidence",
+        "rmse_increase_mean": 9.838257211867707e-05,
+        "rmse_increase_std": 9.663730333517706e-05
+      },
+      {
+        "feature": "track",
+        "rmse_increase_mean": -0.0011514876052934387,
+        "rmse_increase_std": 0.000692543944863904
+      }
+    ],
+    "scope": "Associational and exploratory, not causal. Correlated features and broken feature dependencies limit interpretation. Permuting track can break within-paper consistency. Standard deviation measures permutation variation, not a population confidence interval. Do not use these held-out diagnostics to reselect or tune the model."
+  },
+  "residual_by_observed_score": {
+    "definition": "Residual = observed score minus prediction; positive means underprediction.",
+    "scope": "Descriptive observed-score bins, not a calibration test or subgroup inference.",
+    "bins": [
+      {
+        "observed_score_interval": "[1, 2.5)",
+        "rows": 30,
+        "observed_mean": 2.0133333333333336,
+        "predicted_mean": 2.973267675648918,
+        "mean_residual": -0.9599343423155844,
+        "mae": 0.9599343423155844,
+        "rmse": 1.1509581589888622
+      },
+      {
+        "observed_score_interval": "[2.5, 5)",
+        "rows": 500,
+        "observed_mean": 4.056,
+        "predicted_mean": 4.406174021997036,
+        "mean_residual": -0.350174021997036,
+        "mae": 0.5956277564192536,
+        "rmse": 0.8067078448118665
+      },
+      {
+        "observed_score_interval": "[5, 6)",
+        "rows": 395,
+        "observed_mean": 5.463291139240506,
+        "predicted_mean": 5.399739674587921,
+        "mean_residual": 0.06355146465258524,
+        "mae": 0.45834195098458524,
+        "rmse": 0.5990619345513333
+      },
+      {
+        "observed_score_interval": "[6, 8)",
+        "rows": 540,
+        "observed_mean": 6.752962962962964,
+        "predicted_mean": 6.513015265400587,
+        "mean_residual": 0.2399476975623758,
+        "mae": 0.5157500023893956,
+        "rmse": 0.6525187655938844
+      },
+      {
+        "observed_score_interval": "[8, 10]",
+        "rows": 75,
+        "observed_mean": 8.592,
+        "predicted_mean": 7.871179946520867,
+        "mean_residual": 0.7208200534791346,
+        "mae": 0.7682018024629406,
+        "rmse": 0.887610259654611
+      }
+    ]
+  }
+}

@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "purpose": "Optional descriptive score regression, not an assessment requirement",
+  "input_sha256": "aeede9ec6a5be75d1fb140423a0d75b3eec6a221f21bc4ae868b360a57c282bd",
+  "numpy_version": "2.3.5",
+  "split_seed": "ukp-score-demo-v1",
+  "valid_rows": 10273,
+  "experiment_rows": 10233,
+  "duplicate_pairs_removed": 40,
+  "splits": {
+    "train": {
+      "rows": 7160,
+      "papers": 2449,
+      "track_counts": {
+        "MainConference": 3875,
+        "Workshop": 1121,
+        "Findings": 1856,
+        "Demo": 308
+      }
+    },
+    "validation": {
+      "rows": 1533,
+      "papers": 525,
+      "track_counts": {
+        "Findings": 436,
+        "MainConference": 821,
+        "Workshop": 200,
+        "Demo": 76
+      }
+    },
+    "test": {
+      "rows": 1540,
+      "papers": 525,
+      "track_counts": {
+        "Findings": 441,
+        "MainConference": 778,
+        "Workshop": 224,
+        "Demo": 97
+      }
+    }
+  },
+  "validation_candidates": [
+    {
+      "family": "mean",
+      "alpha": 0.0,
+      "rows": 1533,
+      "mae": 1.1728306402533464,
+      "rmse": 1.464156367621323,
+      "r2": -0.0009203489417077826
+    },
+    {
+      "family": "linear",
+      "alpha": 0.0,
+      "rows": 1533,
+      "mae": 0.5380358752359928,
+      "rmse": 0.6916710957816631,
+      "r2": 0.7766305102335554
+    },
+    {
+      "family": "linear",
+      "alpha": 0.1,
+      "rows": 1533,
+      "mae": 0.5380358566458234,
+      "rmse": 0.6916709439452594,
+      "r2": 0.7766306083021794
+    },
+    {
+      "family": "linear",
+      "alpha": 1.0,
+      "rows": 1533,
+      "mae": 0.538035689540923,
+      "rmse": 0.6916695860505108,
+      "r2": 0.7766314853430004
+    },
+    {
+      "family": "linear",
+      "alpha": 10.0,
+      "rows": 1533,
+      "mae": 0.5380340388582765,
+      "rmse": 0.6916568598973035,
+      "r2": 0.776639704862394
+    },
+    {
+      "family": "linear",
+      "alpha": 100.0,
+      "rows": 1533,
+      "mae": 0.5381017846498497,
+      "rmse": 0.6916130612850507,
+      "r2": 0.7766679921874547
+    },
+    {
+      "family": "quadratic",
+      "alpha": 0.1,
+      "rows": 1533,
+      "mae": 0.5400864067766288,
+      "rmse": 0.6938985564554551,
+      "r2": 0.7751895134704717
+    },
+    {
+      "family": "quadratic",
+      "alpha": 1.0,
+      "rows": 1533,
+      "mae": 0.5400498588693741,
+      "rmse": 0.6938592899365843,
+      "r2": 0.775214956023601
+    },
+    {
+      "family": "quadratic",
+      "alpha": 10.0,
+      "rows": 1533,
+      "mae": 0.5397421869599238,
+      "rmse": 0.6935096518817553,
+      "r2": 0.7754414388420284
+    },
+    {
+      "family": "quadratic",
+      "alpha": 100.0,
+      "rows": 1533,
+      "mae": 0.5391189059330028,
+      "rmse": 0.6924646469653336,
+      "r2": 0.7761176745632772
+    }
+  ],
+  "selection_metric": "validation RMSE; all predictions clipped to [1, 10]",
+  "selected": {
+    "family": "linear",
+    "alpha": 100.0
+  },
+  "final_training": "train + validation; test papers remain excluded",
+  "test": {
+    "rows": 1540,
+    "mae": 0.5479072179175323,
+    "rmse": 0.7188989216920944,
+    "r2": 0.7652660186403215
+  },
+  "test_mean_baseline": {
+    "rows": 1540,
+    "mae": 1.1903335868089118,
+    "rmse": 1.4842901865580134,
+    "r2": -0.0006401687123653854
+  },
+  "test_by_track": {
+    "MainConference": {
+      "rows": 778,
+      "mae": 0.5600328116190375,
+      "rmse": 0.7357003368931302,
+      "r2": 0.7527863479427749
+    },
+    "Findings": {
+      "rows": 441,
+      "mae": 0.5205432569789922,
+      "rmse": 0.6732524758564495,
+      "r2": 0.784866873823096
+    },
+    "Workshop": {
+      "rows": 224,
+      "mae": 0.5495316601222204,
+      "rmse": 0.7551042957444358,
+      "r2": 0.7709338759270281
+    },
+    "Demo": {
+      "rows": 97,
+      "mae": 0.5713084531780991,
+      "rmse": 0.6974716802972698,
+      "r2": 0.7596576833256512
+    }
+  },
+  "limitations": [
+    "Component ratings are known only after a review: this is not advance forecasting.",
+    "Paper groups are disjoint, but reviewers may occur in more than one split.",
+    "Metrics describe this dataset and one fixed split, not real-world peer-review quality.",
+    "No imputation, outlier removal, recommendation, metareview, text, or ID features.",
+    "Scores and anomaly decisions in results.json are never replaced by predictions."
+  ]
+}
