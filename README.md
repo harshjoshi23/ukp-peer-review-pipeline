@@ -1,6 +1,25 @@
-# Peer review data wrangling
+# Peer Review Analysis Pipeline
 
-Validate conference review records, calculate the required statistics, and identify seven rule violations. The command-line implementation uses only Python's standard library and writes `results.json` in the current directory.
+**CSV validation · Descriptive statistics · Seven anomaly rules · Interactive exploration**
+
+A reproducible pipeline for conference review data, with a browser-based explorer and an optional score-regression experiment. The core command-line solution uses only Python's standard library and writes deterministic `results.json` output.
+
+[**Open live dashboard**](https://ukp-peer-review-pipeline.vercel.app/) · [Quick start](#run) · [Architecture](docs/architecture.md) · [Analysis report](docs/analysis-report.md) · [Notebook](notebooks/analysis.ipynb)
+
+![Review explorer showing dataset totals and interactive filters](docs/images/review-explorer.jpg)
+
+### At a glance
+
+| Valid reviews | Papers | Anomaly rules | Tests |
+|---:|---:|---:|---:|
+| 10,273 | 3,499 | 7 | 30 core + 19 extras |
+
+- **Traceable data processing:** strict record validation, physical CSV line numbers, and UTC timestamp comparisons.
+- **Explainable findings:** independent rule checks, deterministic results, and documented interpretation choices.
+- **Interactive exploration:** filter by paper, reviewer, track, and anomaly; inspect distributions and flagged records.
+- **Reproducible modeling:** paper-group splits, validation-based model selection, held-out metrics, and saved artifacts.
+
+The counts above describe the supplied dataset. Fresh input files are processed from their contents.
 
 ## Run
 
@@ -30,6 +49,17 @@ The seven types are `score_outlier`, `coi_violation`, `metareview_inconsistency`
 Malformed records are discarded before all statistics and anomaly checks. Valid duplicates and outliers remain included. Scores retain their original scales; missing required values are not imputed. This is a deterministic data-analysis task without a prediction model, train/test split, pickle artifact, or dashboard requirement.
 
 ## Optional extensions
+
+### Inspect individual anomalies
+
+The explorer links summary statistics to the underlying review rows. This view filters the supplied dataset to its 13 score outliers; additional flags on those same rows remain visible.
+
+![Filtered score outliers with score distribution and row-level rule labels](docs/images/anomaly-inspection.jpg)
+
+### Explore the regression experiment
+
+![Held-out model metrics and disjoint paper groups for training, validation, and testing](docs/images/model-evaluation.jpg)
+
 
 [Open the live dashboard](https://ukp-peer-review-pipeline.vercel.app). It also provides the required files, supporting reports, and a source ZIP. [Deployment notes](docs/deployment.md) explain the static hosting setup and how to redeploy. Hosting is independent of GitHub and does not submit the assessment.
 
@@ -87,5 +117,18 @@ Explicit timestamp offsets normalize to UTC; timestamps without a timezone use t
 The task does not define a JSON value for undefined Pearson correlation. Empty, singleton, or constant correlation inputs therefore produce a clear error instead of a fabricated value or nonstandard JSON `NaN`.
 
 For syntactically broken CSV quoting, the parser discards the record it consumed. An unmatched opening quote can consume later lines; their intended record boundaries cannot be recovered unambiguously.
+
+## Project guide
+
+| Start here | What it contains |
+|---|---|
+| [`solution.py`](solution.py) | Standalone parsing, statistics, and seven-rule analysis |
+| [`results.json`](results.json) | Reproducible output for the supplied dataset |
+| [`tests/`](tests/) | Core parsing, statistics, boundary, and integration tests |
+| [`docs/architecture.md`](docs/architecture.md) | Data flow, design decisions, and complexity |
+| [`docs/analysis-report.md`](docs/analysis-report.md) | Findings, denominators, and interpretation |
+| [`docs/verification.md`](docs/verification.md) | Independent checks and measured performance |
+| [`notebooks/`](notebooks/) | Executed walkthrough and HTML export |
+| [`extras/`](extras/README.md) | Dashboard, regression experiment, diagnostics, and model artifacts |
 
 The source code and output are locally verified. This repository does not claim verification against UKP's inaccessible canonical grader. The separate paper review is not part of this repository.
